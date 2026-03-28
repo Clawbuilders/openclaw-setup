@@ -113,13 +113,7 @@ You should see `[gateway] agent model: nvidia/nvidia/llama-3.1-nemotron-70b-inst
 The auth token is saved to `workshop/.openclaw/openclaw.json`. Get your dashboard URL with:
 
 ```bash
-python3 -c "
-import json
-with open('workshop/.openclaw/openclaw.json') as f:
-    c = json.load(f)
-token = c['gateway']['auth']['token']
-print(f'http://localhost:18789/?token={token}')
-"
+node -e "const c=require('./workshop/.openclaw/openclaw.json');console.log('http://localhost:18789/?token='+c.gateway.auth.token)"
 ```
 
 Open that URL in your browser — your OpenClaw dashboard is live.
