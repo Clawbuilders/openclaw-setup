@@ -87,10 +87,10 @@ cp workshop/.openclaw/.env.example workshop/.openclaw/.env
 Then open `workshop/.openclaw/.env` and replace `nvapi-your-key-here` with your actual key:
 
 ```
-LLM_PROVIDER=nvidia
 NVIDIA_API_KEY=nvapi-your-actual-key-here
-MODEL_VERSION=nvidia/llama-3.1-nemotron-ultra-253b-v1
 ```
+
+The model and provider config is already pre-set in `workshop/.openclaw/openclaw.json` — no changes needed there.
 
 > Get your free key at https://build.nvidia.com → click **"Get API Key"**
 
@@ -100,7 +100,7 @@ MODEL_VERSION=nvidia/llama-3.1-nemotron-ultra-253b-v1
 docker run -d \
   --name openclaw \
   -p 18789:18789 \
-  -v ./workshop/.openclaw:/root/.openclaw \
+  -v ./workshop/.openclaw:/home/node/.openclaw \
   -v ./workshop/workspace:/workspace \
   --env-file ./workshop/.openclaw/.env \
   ghcr.io/openclaw/openclaw:latest
@@ -133,20 +133,27 @@ docker logs openclaw | grep token
 
 ## Available NVIDIA NIM Models
 
-Swap the `MODEL_VERSION` in `~/.openclaw/.env` and restart the container:
+To change the model, edit `workshop/.openclaw/openclaw.json` and update the `primary` field:
 
-| Model | Best For |
+```json
+"agents": {
+  "defaults": {
+    "model": {
+      "primary": "nvidia/nvidia/llama-3.3-nemotron-super-49b-v1"
+    }
+  }
+}
+```
+
+Then restart: `docker restart openclaw`
+
+| Model (use with `nvidia/` prefix) | Best For |
 |-------|----------|
-| `nvidia/llama-3.1-nemotron-ultra-253b-v1` | Flagship reasoning (default) |
+| `nvidia/llama-3.1-nemotron-70b-instruct` | Flagship reasoning (default) |
 | `nvidia/llama-3.3-nemotron-super-49b-v1` | Fast + strong reasoning |
 | `meta/llama-3.3-70b-instruct` | Fast, general-purpose |
-| `meta/llama-4-maverick-17b-128e-instruct` | Multimodal, 128k context |
-| `meta/llama-4-scout-17b-16e-instruct` | Efficient, low latency |
-| `deepseek-ai/deepseek-r1` | Deep reasoning |
-| `mistralai/mistral-large-2-instruct` | Mistral via NIM |
-| `qwen/qwq-32b` | Qwen reasoning model |
 
-Browse all 150+ models: https://build.nvidia.com/models
+Browse all models: https://build.nvidia.com/models
 
 ---
 
@@ -156,7 +163,7 @@ OpenClaw bridges your agent to messaging apps. Example for Telegram:
 
 1. Create a bot via [@BotFather](https://t.me/BotFather) on Telegram
 2. Copy the bot token
-3. Add to `~/.openclaw/.env`:
+3. Add to `workshop/.openclaw/.env`:
 ```bash
 TELEGRAM_BOT_TOKEN=your-token-here
 ```
