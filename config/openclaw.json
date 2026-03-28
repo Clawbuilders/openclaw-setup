@@ -1,0 +1,97 @@
+// OpenClaw Configuration — NVIDIA NIM
+// Place this file at: ~/.openclaw/openclaw.json
+// Docs: https://docs.openclaw.ai
+
+{
+  // ── Models (NVIDIA NIM via OpenAI-compatible API) ──────────────────────────
+  models: {
+    providers: {
+      nvidia: {
+        apiKey: "${NVIDIA_API_KEY}",  // set in your .env file
+        baseUrl: "https://integrate.api.nvidia.com/v1"
+      }
+    }
+  },
+
+  // ── Agents ─────────────────────────────────────────────────────────────────
+  agents: {
+    assistant: {
+      workspace: "~/.openclaw/agents/assistant",
+      models: {
+        primary: "nvidia/llama-3.1-nemotron-ultra-253b-v1",
+        fallback: ["meta/llama-3.3-70b-instruct"]
+      },
+      tools: {
+        accessProfile: "full"
+      }
+    },
+    researcher: {
+      workspace: "~/.openclaw/agents/researcher",
+      models: {
+        primary: "nvidia/llama-3.1-nemotron-ultra-253b-v1",
+        fallback: ["meta/llama-4-maverick-17b-128e-instruct"]
+      },
+      tools: {
+        accessProfile: "full"
+      }
+    },
+    coder: {
+      workspace: "~/.openclaw/agents/coder",
+      models: {
+        primary: "nvidia/llama-3.1-nemotron-ultra-253b-v1",
+        fallback: ["meta/llama-3.3-70b-instruct"]
+      },
+      tools: {
+        accessProfile: "coding"
+      }
+    }
+  },
+
+  // ── Sessions ────────────────────────────────────────────────────────────────
+  sessions: {
+    scopeLevel: "per-sender",
+    retention: 30,
+    reset: {
+      strategy: "idle",
+      idleTimeout: 3600
+    }
+  },
+
+  // ── Gateway ─────────────────────────────────────────────────────────────────
+  gateway: {
+    port: 18789,
+    host: "127.0.0.1",
+    auth: {
+      mode: "token"
+    },
+    controlUI: {
+      enabled: true
+    }
+  },
+
+  // ── Channels (uncomment and fill in tokens to enable) ──────────────────────
+
+  // channels: {
+  //   telegram: {
+  //     enabled: true,
+  //     botToken: "${TELEGRAM_BOT_TOKEN}",
+  //     dmPolicy: "open"
+  //   },
+  //
+  //   discord: {
+  //     enabled: true,
+  //     botToken: "${DISCORD_BOT_TOKEN}",
+  //     dmPolicy: "allowlist",
+  //     serverPolicy: "allowlist",
+  //     allowedServers: ["your-server-id"]
+  //   },
+  //
+  //   slack: {
+  //     enabled: true,
+  //     botToken: "${SLACK_BOT_TOKEN}",
+  //     appToken: "${SLACK_APP_TOKEN}",
+  //     dmPolicy: "allowlist",
+  //     channelPolicy: "open"
+  //   }
+  // }
+}

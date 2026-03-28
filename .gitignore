@@ -1,0 +1,7 @@
+# Never commit real API keys
+workshop/.openclaw/.env
+.env
+
+# Keep the example file
+!.env.example
+!workshop/.openclaw/.env.example
