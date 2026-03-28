@@ -1,0 +1,12 @@
+services:
+  openclaw:
+    image: ghcr.io/openclaw/openclaw:latest
+    container_name: openclaw
+    ports:
+      - "18789:18789"
+    volumes:
+      - ./workshop/.openclaw:/home/node/.openclaw
+      - ./workshop/workspace:/workspace
+    env_file:
+      - ./workshop/.openclaw/.env
+    restart: unless-stopped
