@@ -1,6 +1,9 @@
 {
   "gateway": {
-    "bind": "lan"
+    "bind": "lan",
+    "controlUi": {
+      "dangerouslyDisableDeviceAuth": true
+    }
   },
   "agents": {
     "defaults": {
