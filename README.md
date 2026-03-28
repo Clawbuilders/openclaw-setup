@@ -97,13 +97,7 @@ The model and provider config is already pre-set in `workshop/.openclaw/openclaw
 ### Step 4 — Run OpenClaw
 
 ```bash
-docker run -d \
-  --name openclaw \
-  -p 18789:18789 \
-  -v ./workshop/.openclaw:/home/node/.openclaw \
-  -v ./workshop/workspace:/workspace \
-  --env-file ./workshop/.openclaw/.env \
-  ghcr.io/openclaw/openclaw:latest
+docker compose up -d
 ```
 
 ### Step 5 — Verify It's Running
@@ -187,22 +181,19 @@ Supported channels: Telegram, Discord, Slack, WhatsApp, Signal, Matrix, Teams, G
 
 ```bash
 # Stop
-docker stop openclaw
+docker compose down
 
 # Start again
-docker start openclaw
+docker compose up -d
 
 # View logs
-docker logs openclaw
+docker compose logs
 
 # Follow live logs
-docker logs -f openclaw
+docker compose logs -f
 
-# Restart (picks up .env changes)
-docker restart openclaw
-
-# Remove container (keeps image and config)
-docker rm openclaw
+# Restart (picks up config changes)
+docker compose restart
 ```
 
 ---
@@ -235,9 +226,8 @@ chmod 755 ~/.openclaw ~/openclaw/workspace
 ```bash
 lsof -i :18789
 
-# Or run on a different port
-docker run -d --name openclaw -p 18790:18789 ...
-# Access at http://localhost:18790
+# Or change the port in docker-compose.yml: "18790:18789"
+# Then access at http://localhost:18790
 ```
 
 ### Docker Desktop out of memory (Mac/Windows)
