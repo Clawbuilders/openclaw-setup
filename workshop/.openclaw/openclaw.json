@@ -1,0 +1,9 @@
+{
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "nvidia/nvidia/llama-3.1-nemotron-70b-instruct"
+      }
+    }
+  }
+}
