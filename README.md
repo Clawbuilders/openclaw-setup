@@ -112,9 +112,20 @@ docker run -d \
 docker logs openclaw
 ```
 
-Look for a line containing a dashboard URL with a token, like:
-```
-Dashboard: http://localhost:18789/?token=xxxx
+You should see `[gateway] agent model: nvidia/nvidia/llama-3.1-nemotron-70b-instruct` — that confirms NVIDIA NIM is active.
+
+### Step 6 — Open the Dashboard
+
+The auth token is saved to `workshop/.openclaw/openclaw.json`. Get your dashboard URL with:
+
+```bash
+python3 -c "
+import json
+with open('workshop/.openclaw/openclaw.json') as f:
+    c = json.load(f)
+token = c['gateway']['auth']['token']
+print(f'http://localhost:18789/?token={token}')
+"
 ```
 
 Open that URL in your browser — your OpenClaw dashboard is live.
@@ -123,11 +134,7 @@ Open that URL in your browser — your OpenClaw dashboard is live.
 
 ## Quick Test — Chat with Your Agent
 
-From the dashboard, type a message in the chat box. Or get your token from logs:
-
-```bash
-docker logs openclaw | grep token
-```
+From the dashboard, type a message in the chat box.
 
 ---
 
